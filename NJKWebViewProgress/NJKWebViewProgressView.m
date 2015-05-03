@@ -26,7 +26,11 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setProgress: _progress];
+    if(_progress < 1.0){
+        CGRect frame = _progressBarView.frame;
+        frame.size.width = _progress * self.bounds.size.width;
+        _progressBarView.frame = frame;
+    }
 }
 
 - (void)configureViews
@@ -54,8 +58,6 @@
 
 - (void)setProgress:(float)progress animated:(BOOL)animated
 {
-    CGFloat newWidth = progress * self.bounds.size.width;
-    if(newWidth == _progressBarView.frame.size.width) return; // frame width would not be changed
     BOOL isGrowing = progress > 0.0;
     [UIView animateWithDuration:(isGrowing && animated) ? _barAnimationDuration : 0.0 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         CGRect frame = _progressBarView.frame;
