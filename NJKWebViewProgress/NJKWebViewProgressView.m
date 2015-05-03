@@ -54,6 +54,8 @@
 
 - (void)setProgress:(float)progress animated:(BOOL)animated
 {
+    CGFloat newWidth = progress * self.bounds.size.width;
+    if(newWidth == _progressBarView.frame.size.width) return; // frame width would not be changed
     BOOL isGrowing = progress > 0.0;
     [UIView animateWithDuration:(isGrowing && animated) ? _barAnimationDuration : 0.0 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         CGRect frame = _progressBarView.frame;
